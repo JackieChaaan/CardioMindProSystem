@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cardiovascular Disease Prediction</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Chewy&family=Gorditas:wght@400;700&family=Montserrat+Alternates:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Rubik+Doodle+Shadow&display=swapfamily=Frijole&family=Milonga&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Nosifer&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <div class="home">
+        <div class="container">
+            <div class="home-wrapper">
+                <div class="nav-link">
+                    <div class="logo">
+                        <a href="{{url_for('home')}}"><img src="../static/images/CardioMind Pro.png" alt="logo"></a>
+                    </div>
+                    <div class="login-link">
+                        <input type="button" value="LOGIN" class="nav-login-btn" onclick="loginform()" id="login-btn">
+                    </div>
+                </div>
+                <div class="intro">
+                    <div class="row">
+                        <div class="col-4">
+                            <div class="doc-img">
+                                <img src="../static/images/doc-img.png" alt="doctor-img" class="img-fluid">
+                            </div>
+                        </div>
+                        <div class="col-5">
+                            <div class="abstract">
+                                <h3>Discover <span class="span1"><b>CardioMind Pro</b></span> : Your advanced AI tool
+                                    for predicting <span class="span1"><b>Cardiovascular Disease</b></span>
+                                    risk.</h3>
+                                <p>Using state-of-the-art machine learning algorithms, <span class="span1">
+                                        <b>CardioMind Pro</b></span> provides
+                                    personalized risk assessments based on your data. Take proactive steps towards
+                                    better heart health today with <span class="span1"><b>CardioMind Pro</b></span>.</p>
+                            </div>
+                            <div class="login-form d-flex justify-content-center align-items-center w-100 h-100">
+                                <form action="" method="post" id="uform">
+                                    <div class="row">
+                                        <div class="col-5">
+                                            <label for="uname">User Name :</label>
+                                        </div>
+                                        <div class="col-7">
+                                            <input type="text" id="uname" name="uname" class="w-100" required>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-5">
+                                            <label for="pass">Password :</label>
+                                        </div>
+                                        <div class="col-7">
+                                            <input type="password" id="pass" name="pass" class="w-100" required>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <input type="button" id="clear" name="clear" value="CLEAR"
+                                                onclick="formClear()">
+                                        </div>
+                                        <div class="col-6 d-flex justify-content-end">
+                                            <button type="submit" id="login" name="login">LOGIN</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="col-3 robodoc-pos">
+                            <div class="robodoc-img">
+                                <img src="../static/images/robos (1).png" alt="doctor-img" class="img-fluid">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <p>&copy; Copyright 2024 CardioMind Pro</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function loginform() {
+            var uform = document.getElementById("uform");
+
+            if (uform.style.display == 'none') {
+                uform.style.display = 'block';
+            } else {
+                uform.style.display = 'none';
+            }
+        }
+
+        document.getElementById('uform').addEventListener('submit', function (event) {
+            event.preventDefault(); // Prevent form submission
+            // Get username and password
+            var username = document.getElementById('uname').value.toLowerCase();
+            var password = document.getElementById('pass').value.toLowerCase();
+            // Here, you would validate the username and password, and if they are correct, redirect to the next page
+            if (username === 'abel' && password === 'abel') {
+                // Redirect to the next page
+                window.location.href = 'index';
+            } else {
+                alert('Incorrect username or password. Please try again.');
+            }
+        });
+
+        function formClear() {
+            var unameInput = document.getElementById('uname');
+            var passInput = document.getElementById('pass');
+
+            unameInput.value = "";
+            passInput.value = "";
+        }
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>

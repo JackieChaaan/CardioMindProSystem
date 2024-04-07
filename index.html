@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cardiovascular Disease Risk Prediction</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Chewy&family=Gorditas:wght@400;700&family=Montserrat+Alternates:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Rubik+Doodle+Shadow&display=swapfamily=Frijole&family=Milonga&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Nosifer&display=swap"
+        rel="stylesheet">
+
+    <script>
+        function calculateBMI() {
+            var height = parseFloat(document.getElementById('height').value);
+            var weight = parseFloat(document.getElementById('weight').value);
+            var bmi = weight / ((height / 100) ** 2);
+            document.getElementById('bmi').value = bmi.toFixed(2);
+        }
+
+        function validateForm() {
+            // Get form elements
+            var age = document.getElementById('age').value;
+            var height = document.getElementById('height').value;
+            var weight = document.getElementById('weight').value;
+            var ap_hi = document.getElementById('ap_hi').value;
+            var ap_lo = document.getElementById('ap_lo').value;
+
+            // Perform validation
+            if (age.trim() === '' || isNaN(age) || age < 18 || age > 120) {
+                alert('Please enter a valid age (age must be between 18 and 120).');
+                return false;
+            }
+
+            if (height.trim() === '' || isNaN(height) || height < 50) {
+                alert('Please enter a valid height (height must be greater than 50).');
+                return false;
+            }
+
+            if (weight.trim() === '' || isNaN(weight) || weight < 10) {
+                alert('Please enter a valid weight (weight must be greater than 10).');
+                return false;
+            }
+
+            // Set realistic upper limits for blood pressure
+            var max_ap_hi = 250; // Adjust this as needed
+            var max_ap_lo = 150; // Adjust this as needed
+
+            if (ap_hi.trim() === '' || isNaN(ap_hi) || ap_hi < 90 || ap_hi > max_ap_hi) {
+                alert('Please enter a valid systolic blood pressure (ap_hi).');
+                return false;
+            }
+
+            if (ap_lo.trim() === '' || isNaN(ap_lo) || ap_lo < 60 || ap_lo > max_ap_lo) {
+                alert('Please enter a valid diastolic blood pressure (ap_lo).');
+                return false;
+            }
+
+            // If all fields are valid, return true to allow form submission
+            return true;
+        }
+
+    </script>
+</head>
+
+<body>
+    <div class="main-wrapper">
+        <div class="container">
+            <div class="main">
+                <div class="nav-link">
+                    <div class="logo">
+                        <a href="{{url_for('home')}}"><img src="../static/images/CardioMind Pro.png" alt="logo"></a>
+                    </div>
+                    <!-- <div class="login-link">
+                        <input type="button" value="LOGIN" class="nav-login-btn" onclick="loginform()" id="login-btn">
+                    </div> -->
+                </div>
+                <div class="main-head">
+                    <h1>Cardiovascular Disease Prediction</h1>
+                </div>
+                <div class="user-form">
+                    <div class="container">
+                        <form action="/predict" method="post" onsubmit="return validateForm()">
+                            <div class="row mb-2">
+                                <div class="col-8"><label for="age">Age:</label></div>
+                                <div class="col-4"><input type="text" id="age" name="age" required
+                                        class="inputs w-100 h-100">
+                                </div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-8"><label for="gender">Gender (1 for Female, 2 for Male):</label></div>
+                                <div class="col-4"><select id="gender" name="gender" required
+                                        class="inputs w-100 h-100">
+                                        <option value="1">Female</option>
+                                        <option value="2">Male</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-8"><label for="height">Height (in cm):</label></div>
+                                <div class="col-4"><input type="text" id="height" name="height"
+                                        onchange="calculateBMI()" required class="inputs w-100 h-100"></div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-8"><label for="weight">Weight (in kg):</label></div>
+                                <div class="col-4"><input type="text" id="weight" name="weight"
+                                        onchange="calculateBMI()" required class="inputs w-100 h-100"></div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-8"><label for="bmi">BMI:</label></div>
+                                <div class="col-4"><input type="text" id="bmi" name="bmi" required
+                                        class="inputs read-only w-100 h-100"></div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-8"><label for="ap_hi">Systolic Blood Pressure (ap_hi):</label></div>
+                                <div class="col-4"><input type="text" id="ap_hi" name="ap_hi" required
+                                        class="inputs w-100 h-100"></div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-8"><label for="ap_lo">Diastolic Blood Pressure (ap_lo):</label></div>
+                                <div class="col-4"><input type="text" id="ap_lo" name="ap_lo" required
+                                        class="inputs w-100 h-100"></div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-8"><label for="cholesterol">Cholesterol Level:</label></div>
+                                <div class="col-4"><select id="cholesterol" name="cholesterol" required
+                                        class="inputs w-100 h-100">
+                                        <option value="1">Normal</option>
+                                        <option value="2">Above Normal</option>
+                                        <option value="3">Well Above Normal</option>
+                                    </select></div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-8"><label for="gluc">Glucose Level:</label></div>
+                                <div class="col-4"><select id="gluc" name="gluc" required class="inputs w-100 h-100">
+                                        <option value="1">Normal</option>
+                                        <option value="2">Above Normal</option>
+                                        <option value="3">Well Above Normal</option>
+                                    </select></div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-8"><label for="smoke">Smoking Status (0 for non-smoker, 1 for
+                                        smoker):</label></div>
+                                <div class="col-4"><select id="smoke" name="smoke" required class="inputs w-100 h-100">
+                                        <option value="0">Non-Smoker</option>
+                                        <option value="1">Smoker</option>
+                                    </select></div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-8"><label for="alco">Alcohol Consumption Status (0 for non-drinker, 1
+                                        for
+                                        drinker):</label></div>
+                                <div class="col-4"><select id="alco" name="alco" required class="inputs w-100 h-100">
+                                        <option value="0">Non-Drinker</option>
+                                        <option value="1">Drinker</option>
+                                    </select></div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-8"><label for="active">Physical Activity Status (0 for inactive, 1 for
+                                        active):</label></div>
+                                <div class="col-4"><select id="active" name="active" required
+                                        class="inputs w-100 h-100">
+                                        <option value="0">Inactive</option>
+                                        <option value="1">Active</option>
+                                    </select></div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-8"><label for="modelSelect">Select Model:</label></div>
+                                <div class="col-4"><select id="modelSelect" name="modelSelect" required
+                                        class="inputs w-100 h-100">
+                                        <option value="1">Decision Tree</option>
+                                        <option value="2">KNN</option>
+                                        <option value="3">Logistic Regression</option>
+                                    </select></div>
+                            </div>
+                            <div class="row m-3 ">
+                                <div class="col-6 d-flex justify-content-start">
+                                    <a href="{{url_for('home')}}"><input type="button" value="Back"
+                                            class="back-to-home"></a>
+                                </div>
+                                <div class="col-6 d-flex justify-content-end">
+                                    <input type="submit" value="Predict" class="submit">
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <p>&copy; Copyright 2024 CardioMind Pro</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>
